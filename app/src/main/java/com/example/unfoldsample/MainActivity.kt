@@ -9,30 +9,28 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.unfoldsample.ui.theme.UnfoldSampleTheme
+import com.microsoft.device.dualscreen.windowstate.WindowState
+import com.microsoft.device.dualscreen.windowstate.rememberWindowState
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
+            val windowState = rememberWindowState()
             UnfoldSampleTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(color = MaterialTheme.colors.background) {
-                    Greeting("Android")
-                }
+                UnfoldSample(windowState)
             }
         }
     }
 }
 
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    UnfoldSampleTheme {
-        Greeting("Android")
+fun UnfoldSample(windowState: WindowState) {
+    Surface(color = MaterialTheme.colors.background) {
+        if (windowState.hasFold)
+            Text("Fold present")
+        else
+            Text("No fold present")
     }
 }
