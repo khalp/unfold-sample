@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
 fun UnfoldSample(windowState: WindowState) {
     Surface(color = MaterialTheme.colors.background) {
         if (windowState.hasFold)
-            Text("Fold present")
+            Text("${if (windowState.isFoldHorizontal) "Horizontal" else "Vertical"} fold present")
         else
             Text("No fold present")
     }
