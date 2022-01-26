@@ -44,20 +44,7 @@ class FoldTest {
     fun simulate_fold() {
         composeTestRule.setContent {
             // Initialize app with no fold present (hasFold = false)
-            var hasFold by remember { mutableStateOf(false) }
-
-            val windowLayoutInfo =
-                WindowInfoTracker.getOrCreate(composeTestRule.activity).windowLayoutInfo(composeTestRule.activity)
-            LaunchedEffect(windowLayoutInfo) {
-                windowLayoutInfo.collect { newLayoutInfo ->
-                    val foldingFeature =
-                        newLayoutInfo.displayFeatures.filterIsInstance<FoldingFeature>().firstOrNull()
-                    foldingFeature?.let {
-                        hasFold = true
-                    }
-                }
-            }
-
+            val hasFold = rememeberFold(initialValue = false)
             UnfoldSample(WindowState(hasFold = hasFold))
         }
 
@@ -74,21 +61,8 @@ class FoldTest {
     @Test
     fun simulate_unfold() {
         composeTestRule.setContent {
-            // Initialize app with no fold present (hasFold = false)
-            var hasFold by remember { mutableStateOf(true) }
-
-            val windowLayoutInfo =
-                WindowInfoTracker.getOrCreate(composeTestRule.activity).windowLayoutInfo(composeTestRule.activity)
-            LaunchedEffect(windowLayoutInfo) {
-                windowLayoutInfo.collect { newLayoutInfo ->
-                    val foldingFeature =
-                        newLayoutInfo.displayFeatures.filterIsInstance<FoldingFeature>().firstOrNull()
-                    foldingFeature?.let {
-                        hasFold = true
-                    }
-                }
-            }
-
+            // Initialize app with fold present (hasFold = true)
+            val hasFold = rememeberFold(initialValue = false)
             UnfoldSample(WindowState(hasFold = hasFold))
         }
 
@@ -131,5 +105,25 @@ class FoldTest {
             val windowLayoutInfo = TestWindowLayoutInfo(listOf(fold))
             overrideWindowLayoutInfo(windowLayoutInfo)
         }
+    }
+
+    @Composable
+    private fun rememeberFold(initialValue: Boolean): Boolean {
+        val windowLayoutInfo =
+            WindowInfoTracker.getOrCreate(composeTestRule.activity).windowLayoutInfo(composeTestRule.activity)
+
+        var hasFold by remember { mutableStateOf(initialValue) }
+
+        LaunchedEffect(windowLayoutInfo) {
+            windowLayoutInfo.collect { newLayoutInfo ->
+                val foldingFeature =
+                    newLayoutInfo.displayFeatures.filterIsInstance<FoldingFeature>().firstOrNull()
+                foldingFeature?.let {
+                    hasFold = true
+                }
+            }
+        }
+
+        return hasFold
     }
 }
