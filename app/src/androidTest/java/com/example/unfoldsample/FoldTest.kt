@@ -42,7 +42,7 @@ class FoldTest {
      * Test passes - changes to "Fold present" screen
      */
     @Test
-    fun simulate_fold() {
+    fun simulate_span() {
         composeTestRule.setContent {
             // Initialize app with no fold present (hasFold = false)
             val hasFold = rememeberFoldState(initialValue = false).first
@@ -52,7 +52,7 @@ class FoldTest {
         // Check that text says "no fold present"
         composeTestRule.onNodeWithText("No fold present").assertIsDisplayed()
 
-        // Simulate span/vertical fold
+        // Simulate span/vertical folding feature
         publisherRule.simulateSpan(composeTestRule.activityRule)
 
         // Check that text says "vertical fold present"
@@ -73,7 +73,7 @@ class FoldTest {
         // Check that text says "vertical fold present"
         composeTestRule.onNodeWithText("Vertical fold present").assertIsDisplayed()
 
-        // Simulate unspan/no fold
+        // Simulate unspan/no folding feature
         publisherRule.simulateUnspan()
 
         // Check that text says "no fold present"
@@ -94,13 +94,13 @@ class FoldTest {
         // Check that text says "no fold present"
         composeTestRule.onNodeWithText("No fold present").assertIsDisplayed()
 
-        // Simulate span/fold
+        // Simulate span/folding feature
         publisherRule.simulateSpan(composeTestRule.activityRule)
 
         // Check that text says "vertical fold present"
         composeTestRule.onNodeWithText("Vertical fold present").assertIsDisplayed()
 
-        // Simulate unspan/no fold
+        // Simulate unspan/no folding feature
         publisherRule.simulateUnspan()
 
         // Check that text says "no fold present"
@@ -123,13 +123,13 @@ class FoldTest {
         // Check that text says "no fold present"
         composeTestRule.onNodeWithText("No fold present").assertIsDisplayed()
 
-        // Simulate span/vertical fold
+        // Simulate span/vertical folding feature
         publisherRule.simulateSpan(composeTestRule.activityRule)
 
         // Check that text says "vertical fold present"
         composeTestRule.onNodeWithText("Vertical fold present").assertIsDisplayed()
 
-        // Simulate span/horizontal fold
+        // Simulate span/horizontal folding feature
         publisherRule.simulateSpan(composeTestRule.activityRule, orientation = FoldingFeature.Orientation.HORIZONTAL)
 
         // Check that text says "horizontal fold present"
